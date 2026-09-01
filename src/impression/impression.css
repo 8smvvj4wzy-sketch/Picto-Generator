@@ -1,0 +1,106 @@
+/**
+ * Feuille d'impression.
+ *
+ * Principe : la page A4 affichée à l'écran est exactement celle qui sort de
+ * l'imprimante. Cette feuille ne fait donc que retirer l'interface, la mise à
+ * l'échelle de l'aperçu et les repères d'édition — elle ne remet jamais en
+ * cause la mise en page.
+ *
+ * La règle @page (format et orientation) est injectée par src/support/PageA4.jsx,
+ * @page n'acceptant pas de sélecteur.
+ */
+
+@media print {
+  /* Couleurs conservées : sans cela, les navigateurs suppriment les aplats. */
+  * {
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+
+  html,
+  body,
+  #racine {
+    height: auto;
+    background: #fff;
+  }
+
+  /* Toute l'interface disparaît : il ne reste que la zone support. */
+  .sans-impression,
+  .modale,
+  .bandeau-message {
+    display: none !important;
+  }
+
+  .application,
+  .espace-travail,
+  .zone-apercu,
+  .apercu,
+  .apercu__cadre {
+    display: block;
+    width: auto;
+    height: auto;
+    max-height: none;
+    padding: 0;
+    margin: 0;
+    overflow: visible;
+    background: none;
+    box-shadow: none;
+  }
+
+  /* La marge est portée par @page : la page reprend sa taille naturelle et
+     remplit la feuille, sans mise à l'échelle ni double marge. */
+  .page {
+    width: auto;
+    height: auto;
+    min-height: 0;
+    padding: 0;
+    margin: 0;
+    transform: none;
+    box-shadow: none;
+    break-inside: auto;
+  }
+
+  /* Une seule page : le contenu occupe la hauteur utile de la feuille
+     (297 mm ou 210 mm, moins les marges de 10 mm de @page). */
+  .page--portrait {
+    height: 277mm;
+  }
+
+  .page--paysage {
+    height: 190mm;
+  }
+
+  /* Aucune case ne doit être coupée par un saut de page. */
+  .case,
+  .etape,
+  .jetons__emplacement,
+  .jetons__renforcateur,
+  .jetons__entete,
+  .attribution {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  /* Les champs de saisie s'impriment comme du texte. */
+  .case__libelle,
+  .case__heure,
+  .jetons__comportement {
+    border: none;
+    background: transparent;
+    outline: none;
+    appearance: none;
+  }
+
+  /* Repères d'édition : sélection, curseur, invites de saisie. */
+  .case--selectionnee {
+    outline: none;
+  }
+
+  .case__vide {
+    display: none;
+  }
+
+  a[href]::after {
+    content: none;
+  }
+}

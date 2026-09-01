@@ -1,0 +1,67 @@
+{
+  "_lisezMoi": [
+    "Vocabulaire recherché sur l'API ARASAAC par scripts/build-pictos.mjs.",
+    "Une clé = une catégorie affichée dans la Bibliothèque. Une valeur = la liste des mots-clés recherchés.",
+    "Pour enrichir le pack : ajoutez un mot-clé ici, puis relancez `npm run build:pictos`.",
+    "Les clés commençant par « _ » sont ignorées par le script."
+  ],
+
+  "routines": [
+    "se lever", "se réveiller", "s'habiller", "se déshabiller", "se laver les mains",
+    "se laver", "prendre une douche", "se brosser les dents", "se coiffer", "toilettes",
+    "manger", "boire", "petit-déjeuner", "déjeuner", "goûter", "dîner",
+    "dormir", "sieste", "ranger", "mettre son manteau", "mettre ses chaussures",
+    "se moucher", "attendre le bus", "arriver", "partir", "dire bonjour", "dire au revoir"
+  ],
+
+  "ateliers": [
+    "travailler", "lire", "écrire", "dessiner", "peindre", "colorier",
+    "découper", "coller", "plier", "compter", "ordinateur", "tablette",
+    "musique", "chanter", "danser", "sport", "courir", "nager", "vélo",
+    "jeu", "jouer", "puzzle", "construire", "cuisine", "cuisiner",
+    "jardinage", "arroser", "courses", "atelier", "peinture", "pâte à modeler",
+    "regarder un livre", "écouter de la musique", "photo"
+  ],
+
+  "lieux": [
+    "classe", "école", "salle", "cantine", "cour de récréation", "récréation",
+    "gymnase", "bus", "voiture", "maison", "chambre", "salle de bain",
+    "cuisine", "jardin", "piscine", "bibliothèque", "magasin", "parc",
+    "hôpital", "médecin", "salle de repos", "couloir"
+  ],
+
+  "aliments": [
+    "eau", "lait", "jus de fruit", "pain", "fruit", "pomme", "banane",
+    "légume", "carotte", "salade", "gâteau", "yaourt", "fromage",
+    "pâtes", "riz", "soupe", "poisson", "viande", "œuf", "biscuit",
+    "chocolat", "bonbon", "céréales", "assiette", "verre", "cuillère", "fourchette"
+  ],
+
+  "emotions": [
+    "content", "heureux", "triste", "en colère", "fatigué", "calme",
+    "malade", "avoir mal", "avoir peur", "surpris", "ennuyé", "inquiet",
+    "avoir faim", "avoir soif", "avoir chaud", "avoir froid", "aimer", "content de soi"
+  ],
+
+  "consignes": [
+    "attendre", "écouter", "regarder", "stop", "aider", "demander",
+    "tour de rôle", "silence", "s'asseoir", "se lever", "lever la main",
+    "ranger ses affaires", "faire la queue", "partager", "dire s'il te plaît",
+    "dire merci", "oui", "non", "bravo", "encore", "terminé", "commencer",
+    "doucement", "faire attention", "respirer"
+  ],
+
+  "objets": [
+    "table", "chaise", "crayon", "stylo", "gomme", "ciseaux", "colle",
+    "livre", "cahier", "feuille", "sac", "cartable", "téléphone", "jeton",
+    "cadeau", "ballon", "poupée", "voiture jouet", "montre", "horloge",
+    "serviette", "brosse à dents", "savon", "manteau", "chaussures", "casquette"
+  ],
+
+  "temps": [
+    "matin", "après-midi", "soir", "nuit", "midi",
+    "lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi", "dimanche",
+    "aujourd'hui", "demain", "hier", "fini", "bientôt", "avant", "après",
+    "semaine", "week-end", "vacances", "anniversaire", "calendrier", "minuteur"
+  ]
+}

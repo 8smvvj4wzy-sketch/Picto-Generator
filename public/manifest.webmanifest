@@ -1,0 +1,17 @@
+{
+  "name": "Générateur de supports visuels",
+  "short_name": "Supports visuels",
+  "description": "Emplois du temps visuels, séquentiels de tâche et tableaux de jetons imprimables, à partir de pictogrammes ARASAAC embarqués.",
+  "lang": "fr",
+  "dir": "ltr",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#f4f6fb",
+  "theme_color": "#1f6feb",
+  "icons": [
+    { "src": "./icone.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "./icone-maskable.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "maskable" }
+  ]
+}

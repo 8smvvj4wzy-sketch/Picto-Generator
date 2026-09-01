@@ -1,0 +1,985 @@
+/* ------------------------------------------------------------------ socle */
+
+:root {
+  --fond: #f4f6fb;
+  --surface: #ffffff;
+  --bordure: #d8dee9;
+  --texte: #1b2434;
+  --texte-doux: #5a6679;
+  --accent: #1f6feb;
+  --accent-doux: #e8f0fe;
+  --danger: #b3261e;
+  --rayon: 8px;
+  --ombre: 0 1px 3px rgb(16 24 40 / 12%);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#racine {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--fond);
+  color: var(--texte);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.application {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+/* ------------------------------------------------------------- commandes */
+
+.bouton {
+  padding: 7px 12px;
+  border: 1px solid var(--bordure);
+  border-radius: var(--rayon);
+  background: var(--surface);
+  color: var(--texte);
+  font: inherit;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.bouton:hover {
+  border-color: var(--accent);
+}
+
+.bouton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.bouton--principal {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+  font-weight: 600;
+}
+
+.bouton--danger {
+  color: var(--danger);
+}
+
+.bouton--discret {
+  background: transparent;
+  border-color: transparent;
+  color: var(--texte-doux);
+}
+
+.champ {
+  width: 100%;
+  padding: 7px 10px;
+  border: 1px solid var(--bordure);
+  border-radius: var(--rayon);
+  background: var(--surface);
+  font: inherit;
+  color: inherit;
+}
+
+.champ:focus-visible,
+.bouton:focus-visible,
+.puce:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+.champ--recherche {
+  font-size: 15px;
+  padding: 9px 12px;
+}
+
+.segmente {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 2px;
+  padding: 2px;
+  background: var(--fond);
+  border: 1px solid var(--bordure);
+  border-radius: var(--rayon);
+}
+
+.segmente__option {
+  padding: 5px 10px;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  font: inherit;
+  color: var(--texte-doux);
+  cursor: pointer;
+}
+
+.segmente__option--active {
+  background: var(--surface);
+  color: var(--texte);
+  font-weight: 600;
+  box-shadow: var(--ombre);
+}
+
+.nombre {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+}
+
+.nombre input {
+  flex: 1;
+}
+
+.nombre__valeur {
+  min-width: 2ch;
+  font-weight: 600;
+  text-align: right;
+}
+
+.interrupteur {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+/* ---------------------------------------------------------------- entête */
+
+.entete {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  padding: 10px 16px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--bordure);
+}
+
+.entete__marque {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.entete__logo {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: var(--rayon);
+  background: var(--accent);
+  color: #fff;
+  font-size: 20px;
+}
+
+.entete h1 {
+  margin: 0;
+  font-size: 16px;
+}
+
+.entete__sous-titre {
+  margin: 0;
+  font-size: 12px;
+  color: var(--texte-doux);
+}
+
+.entete__actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+}
+
+.onglets {
+  display: flex;
+  gap: 4px;
+  padding: 3px;
+  background: var(--fond);
+  border-radius: var(--rayon);
+}
+
+.onglet {
+  padding: 7px 14px;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  font: inherit;
+  color: var(--texte-doux);
+  cursor: pointer;
+}
+
+.onglet--actif {
+  background: var(--surface);
+  color: var(--accent);
+  font-weight: 600;
+  box-shadow: var(--ombre);
+}
+
+.etat-hors-ligne {
+  padding: 4px 9px;
+  border-radius: 999px;
+  background: var(--accent-doux);
+  color: var(--accent);
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.etat-hors-ligne--pret {
+  background: #e6f4ea;
+  color: #137333;
+}
+
+.bandeau-message {
+  margin: 0;
+  padding: 8px 16px;
+  background: var(--accent-doux);
+  color: var(--accent);
+  border-bottom: 1px solid var(--bordure);
+}
+
+/* --------------------------------------------------------- espace de travail */
+
+.espace-travail {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 330px minmax(0, 1fr) 300px;
+  min-height: 0;
+}
+
+.panneau {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 14px;
+  overflow-y: auto;
+  background: var(--surface);
+}
+
+.panneau--bibliotheque {
+  border-right: 1px solid var(--bordure);
+}
+
+.panneau--reglages {
+  border-left: 1px solid var(--bordure);
+}
+
+.panneau__titre {
+  margin: 0;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--texte-doux);
+}
+
+.panneau__vide,
+.panneau__note {
+  color: var(--texte-doux);
+  font-size: 13px;
+}
+
+.reglage {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.reglage__label {
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.reglage__champ {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.reglage__aide {
+  font-size: 12px;
+  color: var(--texte-doux);
+}
+
+/* --------------------------------------------------------------- bibliothèque */
+
+.bibliotheque {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.bibliotheque__filtres {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.puce {
+  padding: 4px 9px;
+  border: 1px solid var(--bordure);
+  border-radius: 999px;
+  background: var(--surface);
+  font: inherit;
+  font-size: 12px;
+  color: var(--texte-doux);
+  cursor: pointer;
+}
+
+.puce--active {
+  background: var(--accent-doux);
+  border-color: var(--accent);
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.puce__compte {
+  opacity: 0.6;
+}
+
+.bibliotheque__etat {
+  margin: 0;
+  font-size: 12px;
+  color: var(--texte-doux);
+}
+
+.grille-pictos {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(84px, 1fr));
+  gap: 8px;
+}
+
+.vignette {
+  position: relative;
+}
+
+.vignette__bouton {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  width: 100%;
+  padding: 6px 4px;
+  border: 1px solid var(--bordure);
+  border-radius: var(--rayon);
+  background: var(--surface);
+  font: inherit;
+  cursor: pointer;
+}
+
+.vignette__bouton:hover {
+  border-color: var(--accent);
+  background: var(--accent-doux);
+}
+
+.vignette__bouton img {
+  width: 100%;
+  height: 62px;
+  object-fit: contain;
+}
+
+.vignette__libelle {
+  font-size: 11px;
+  line-height: 1.2;
+  text-align: center;
+  color: var(--texte-doux);
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.vignette__favori {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  width: 22px;
+  height: 22px;
+  border: none;
+  border-radius: 50%;
+  background: rgb(255 255 255 / 85%);
+  color: #b8860b;
+  font-size: 14px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.vignette--favorite .vignette__bouton {
+  border-color: #e0b34a;
+}
+
+/* ------------------------------------------------------------- pack absent */
+
+.pack-absent {
+  max-width: 46ch;
+  font-size: 13px;
+  color: var(--texte-doux);
+}
+
+.pack-absent__titre {
+  margin: 0 0 8px;
+  font-size: 15px;
+  color: var(--texte);
+}
+
+.pack-absent__commande {
+  margin: 12px 0;
+  padding: 10px 12px;
+  border-radius: var(--rayon);
+  background: #1b2434;
+  color: #e6edf3;
+  font-size: 13px;
+  overflow-x: auto;
+}
+
+.pack-absent__etapes {
+  margin: 0;
+  padding-left: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.pack-absent__licence {
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid var(--bordure);
+  font-size: 12px;
+}
+
+code {
+  padding: 1px 4px;
+  border-radius: 4px;
+  background: var(--fond);
+  font-size: 0.92em;
+}
+
+/* ------------------------------------------------------------------ modale */
+
+.modale {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: rgb(16 24 40 / 45%);
+  z-index: 20;
+}
+
+.modale__boite {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: min(760px, 100%);
+  max-height: 85vh;
+  overflow-y: auto;
+  padding: 18px;
+  border-radius: 12px;
+  background: var(--surface);
+}
+
+.modale__entete {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.modale__entete h2 {
+  margin: 0;
+  font-size: 17px;
+}
+
+.modale__barre {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.modale__vide {
+  color: var(--texte-doux);
+}
+
+.message {
+  margin: 0;
+  padding: 8px 10px;
+  border-radius: var(--rayon);
+}
+
+.message--succes {
+  background: #e6f4ea;
+  color: #137333;
+}
+
+.message--erreur {
+  background: #fce8e6;
+  color: var(--danger);
+}
+
+.liste-modeles {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.liste-modeles__item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 10px 12px;
+  border: 1px solid var(--bordure);
+  border-radius: var(--rayon);
+}
+
+.liste-modeles__infos {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 180px;
+}
+
+.liste-modeles__meta {
+  font-size: 12px;
+  color: var(--texte-doux);
+}
+
+.liste-modeles__actions {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+/* ------------------------------------------------------------------ aperçu */
+
+.zone-apercu {
+  overflow: auto;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.apercu {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+/* ------------------------------------------------------ la page A4 elle-même */
+
+.page {
+  width: 210mm;
+  height: 297mm;
+  padding: 10mm;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  color: #111;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+
+  /* Taille de référence des pictogrammes, surchargée par page--taille-*. */
+  --picto: 34mm;
+}
+
+.page--paysage {
+  width: 297mm;
+  height: 210mm;
+}
+
+.page--taille-petit {
+  --picto: 22mm;
+}
+
+.page--taille-moyen {
+  --picto: 34mm;
+}
+
+.page--taille-grand {
+  --picto: 50mm;
+}
+
+.page--noir-et-blanc .picto {
+  filter: grayscale(1) contrast(1.15);
+}
+
+.page__titre {
+  margin: 0 0 4mm;
+  font-size: 7mm;
+  line-height: 1.15;
+  text-align: center;
+}
+
+.page__contenu {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+}
+
+.attribution {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2mm;
+  margin-top: 3mm;
+  padding-top: 2mm;
+  border-top: 0.3mm solid #999;
+  font-size: 2.9mm;
+  color: #444;
+}
+
+.attribution__logo {
+  height: 6mm;
+  width: auto;
+}
+
+/* ------------------------------------------------- éléments communs aux cases */
+
+.case,
+.etape {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5mm;
+  padding: 2mm;
+  border: 0.5mm solid #333;
+  border-radius: 3mm;
+  break-inside: avoid;
+}
+
+.case__picto {
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+
+  /* Le réglage « taille des pictogrammes » plafonne la hauteur : au-delà, la
+     case se contente d'aérer autour du pictogramme. */
+  max-height: var(--picto);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.case__picto .picto {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.case__libelle,
+.case__heure,
+.jetons__comportement {
+  width: 100%;
+  border: none;
+  background: transparent;
+  font-family: inherit;
+  color: inherit;
+  text-align: center;
+  padding: 0;
+}
+
+.case__libelle {
+  font-size: 4.5mm;
+  font-weight: 600;
+}
+
+.case__heure {
+  font-size: 3.6mm;
+  color: #444;
+}
+
+.case__coche {
+  position: absolute;
+  top: 2mm;
+  right: 2mm;
+  width: 6mm;
+  height: 6mm;
+  border: 0.5mm solid #333;
+  border-radius: 1mm;
+}
+
+.case__vide {
+  font-size: 3mm;
+  color: #9aa4b2;
+  text-align: center;
+}
+
+/* --------------------------------------------------------- emploi du temps */
+
+.emploi {
+  flex: 1;
+  width: 100%;
+  display: flex;
+  gap: 4mm;
+}
+
+.emploi--verticale {
+  flex-direction: column;
+}
+
+.emploi--horizontale {
+  flex-direction: row;
+}
+
+.emploi--grille {
+  display: grid;
+  gap: 4mm;
+  grid-auto-rows: 1fr;
+}
+
+/* En bande verticale, le pictogramme est à gauche et le libellé à droite :
+   c'est la présentation la plus lisible pour un déroulé de journée. */
+.emploi--verticale .case {
+  flex-direction: row;
+  gap: 4mm;
+  padding-right: 10mm;
+}
+
+.emploi--verticale .case__picto {
+  flex: 0 0 auto;
+  width: var(--picto);
+  height: var(--picto);
+}
+
+.emploi--verticale .case__libelle {
+  flex: 1;
+  text-align: left;
+  font-size: 5.5mm;
+}
+
+.emploi--verticale .case__heure {
+  flex: 0 0 auto;
+  width: 16mm;
+  text-align: left;
+  font-size: 4.2mm;
+}
+
+/* ------------------------------------------------------------- séquentiel */
+
+.sequentiel {
+  flex: 1;
+  width: 100%;
+  display: flex;
+  gap: 1mm;
+}
+
+.sequentiel--verticale {
+  flex-direction: column;
+}
+
+.sequentiel--horizontale {
+  flex-direction: row;
+}
+
+.sequentiel__maillon {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  align-items: center;
+}
+
+.sequentiel--verticale .sequentiel__maillon {
+  flex-direction: column;
+}
+
+.sequentiel--horizontale .sequentiel__maillon {
+  flex-direction: row;
+}
+
+.sequentiel .etape {
+  width: 100%;
+  padding: 2mm 11mm;
+}
+
+.sequentiel--horizontale .etape {
+  padding-left: 2mm;
+  padding-top: 10mm;
+}
+
+.etape__numero {
+  position: absolute;
+  top: 2mm;
+  left: 2mm;
+  display: grid;
+  place-items: center;
+  width: 8mm;
+  height: 8mm;
+  border-radius: 50%;
+  background: #1b2434;
+  color: #fff;
+  font-size: 4.5mm;
+  font-weight: 700;
+}
+
+.sequentiel__fleche {
+  flex: 0 0 auto;
+  padding: 0.5mm 1.5mm;
+  font-size: 5mm;
+  color: #333;
+}
+
+/* -------------------------------------------------------- tableau de jetons */
+
+.jetons {
+  flex: 1;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 4mm;
+}
+
+.jetons__entete {
+  padding: 3mm;
+  border: 0.5mm solid #333;
+  border-radius: 3mm;
+  background: #f2f5fa;
+}
+
+.jetons__comportement {
+  font-size: 6mm;
+  font-weight: 700;
+}
+
+.jetons__corps {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  gap: 5mm;
+}
+
+.jetons--droite .jetons__corps {
+  flex-direction: row;
+}
+
+.jetons--bas .jetons__corps {
+  flex-direction: column;
+}
+
+.jetons__grille {
+  flex: 1;
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  gap: 4mm;
+}
+
+.jetons__emplacement {
+  width: 100%;
+  max-width: 40mm;
+  aspect-ratio: 1;
+}
+
+.jeton {
+  width: 100%;
+  height: 100%;
+  color: #444;
+}
+
+.jetons__renforcateur {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2mm;
+  width: 58mm;
+  padding: 3mm;
+  border: 0.6mm dashed #333;
+  border-radius: 3mm;
+}
+
+.jetons__renforcateur .case__libelle {
+  flex: 0 0 auto;
+}
+
+.jetons--bas .jetons__renforcateur {
+  flex-direction: row;
+  width: 100%;
+  height: 45mm;
+}
+
+.jetons__renforcateur .case__picto {
+  /* Encart compact et centré : le pictogramme ne doit pas s'étirer sur toute
+     la hauteur de la colonne. */
+  flex: 0 0 auto;
+  height: 42mm;
+  max-height: none;
+}
+
+.jetons__recompense {
+  font-size: 4mm;
+  color: #444;
+}
+
+/* ------------------------------------------------------- écran uniquement */
+
+@media screen {
+  .apercu__cadre {
+    width: calc(var(--largeur-page) * var(--echelle));
+    height: calc(var(--hauteur-page) * var(--echelle));
+  }
+
+  .apercu__cadre .page {
+    transform: scale(var(--echelle));
+    transform-origin: top left;
+    box-shadow: 0 2px 14px rgb(16 24 40 / 18%);
+  }
+
+  /* Repères d'édition : jamais imprimés (voir impression.css). */
+  .case__libelle:hover,
+  .case__heure:hover,
+  .case__libelle:focus,
+  .case__heure:focus {
+    background: #eef3fe;
+    border-radius: 1mm;
+    outline: none;
+  }
+
+  .case--selectionnee {
+    outline: 0.9mm solid var(--accent);
+    outline-offset: -0.45mm;
+  }
+
+  .case,
+  .etape,
+  .jetons__renforcateur {
+    cursor: pointer;
+  }
+}
+
+/* --------------------------------------------------- tablettes et petits écrans */
+
+@media screen and (width <= 1100px) {
+  .espace-travail {
+    display: block;
+    overflow-y: auto;
+  }
+
+  .panneau {
+    overflow: visible;
+    border: none;
+    border-bottom: 1px solid var(--bordure);
+  }
+
+  .panneau--bibliotheque {
+    max-height: 46vh;
+    overflow-y: auto;
+  }
+
+  .entete__actions {
+    margin-left: 0;
+  }
+}

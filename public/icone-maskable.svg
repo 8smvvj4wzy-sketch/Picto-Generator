@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192" role="img" aria-label="Générateur de supports visuels">
+  <rect width="192" height="192" fill="#1f6feb"/>
+  <g fill="none" stroke="#ffffff" stroke-width="8" stroke-linejoin="round">
+    <rect x="52" y="52" width="40" height="40" rx="7"/>
+    <rect x="100" y="52" width="40" height="40" rx="7"/>
+    <rect x="52" y="100" width="40" height="40" rx="7"/>
+    <rect x="100" y="100" width="40" height="40" rx="7"/>
+  </g>
+</svg>

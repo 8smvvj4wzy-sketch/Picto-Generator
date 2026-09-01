@@ -1,0 +1,8 @@
+node_modules/
+dist/
+.DS_Store
+*.local
+.vite/
+
+# Le pack de pictogrammes EST versionné (l'application doit fonctionner hors ligne).
+# Ne pas ignorer public/pictos/.

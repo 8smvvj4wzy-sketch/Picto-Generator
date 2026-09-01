@@ -1,0 +1,62 @@
+name: Déploiement GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# Le jeton du workflow doit pouvoir publier sur Pages.
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Un seul déploiement à la fois ; les exécutions en cours ne sont pas annulées
+# pour ne pas interrompre une publication.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  construire:
+    name: Construire le site
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Installer les dépendances
+        run: npm ci
+
+      - name: Construire
+        run: npm run build
+
+      # Le pack de pictogrammes est versionné dans public/pictos/ : il est copié
+      # tel quel dans dist/ par Vite. Le script build-pictos n'est jamais lancé
+      # ici, l'application ne devant dépendre d'aucune API en production.
+      - name: Vérifier la présence du pack
+        run: |
+          if [ -f dist/pictos/index.json ]; then
+            echo "Pack : $(node -p "require('./dist/pictos/index.json').length") pictogrammes"
+          else
+            echo "::warning::Pack de pictogrammes absent — lancez 'npm run build:pictos' puis committez public/pictos/"
+          fi
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deployer:
+    name: Déployer
+    needs: construire
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploiement.outputs.page_url }}
+    steps:
+      - id: deploiement
+        uses: actions/deploy-pages@v4
