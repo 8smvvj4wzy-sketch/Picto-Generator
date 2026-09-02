@@ -1,0 +1,59 @@
+Générateur de supports visuels
+==============================
+
+Ce dépôt contient deux ensembles de fichiers soumis à des licences distinctes.
+
+
+1. CODE SOURCE — Licence MIT
+----------------------------
+
+S'applique à tout le dépôt À L'EXCEPTION du dossier `public/pictos/` et du
+fichier `public/logo-arasaac.png`.
+
+Copyright (c) 2026 les contributeurs du dépôt Picto-Generator
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+
+2. PICTOGRAMMES ARASAAC — Creative Commons BY-NC-SA 4.0
+-------------------------------------------------------
+
+S'applique au contenu du dossier `public/pictos/` et au fichier
+`public/logo-arasaac.png`.
+
+Les pictogrammes sont la propriété du Gouvernement d'Aragon. Ils ont été créés
+par Sergio Palao pour ARASAAC (https://arasaac.org) et sont diffusés sous
+licence Creative Commons BY-NC-SA 4.0 :
+
+  - Attribution      : la mention « © ARASAAC — Gouvernement d'Aragon
+                       (auteur : Sergio Palao) » doit accompagner toute
+                       utilisation. L'application l'imprime automatiquement en
+                       pied de chaque support ; cette mention n'est pas
+                       désactivable.
+  - Non commercial   : aucune exploitation commerciale n'est autorisée.
+  - Partage à l'identique : toute redistribution de ces fichiers, y compris
+                       modifiés, doit se faire sous la même licence. Ce dépôt
+                       étant public et redistribuant les pictogrammes, la
+                       clause s'applique aux fichiers concernés.
+
+Texte complet de la licence :
+https://creativecommons.org/licenses/by-nc-sa/4.0/deed.fr
+
+Conséquence à garder en tête : une commercialisation future de cette
+application devrait se faire sans ces pictogrammes.
