@@ -17,7 +17,7 @@
  *
  * Options :
  *   --par-mot=3        pictogrammes retenus par mot-clé
- *   --max=600          plafond de pictogrammes dans le pack
+ *   --max=1000         plafond de pictogrammes dans le pack
  *   --langue=fr        langue de recherche ARASAAC
  *   --format=auto      auto | svg | png  (auto : SVG si disponible, sinon PNG)
  *   --concurrence=4    téléchargements simultanés
@@ -46,7 +46,7 @@ const STATIQUE = 'https://static.arasaac.org/pictograms'
 function lireOptions(argv) {
   const o = {
     parMot: 3,
-    max: 600,
+    max: 1000,
     langue: 'fr',
     format: 'auto',
     concurrence: 4,
@@ -295,7 +295,7 @@ const AIDE = `Constitution du pack de pictogrammes ARASAAC.
   node scripts/build-pictos.mjs [options]
 
   --par-mot=3      pictogrammes retenus par mot-clé
-  --max=600        plafond de pictogrammes dans le pack
+  --max=1000       plafond de pictogrammes dans le pack
   --langue=fr      langue de recherche ARASAAC
   --format=auto    auto | svg | png  (auto : SVG si disponible, sinon PNG)
   --concurrence=4  téléchargements simultanés

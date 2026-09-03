@@ -6,7 +6,7 @@
 
 ## 1. Objectif
 
-Application web permettant de produire rapidement des supports visuels imprimables à partir d'une bibliothèque de pictogrammes ARASAAC embarquée : emplois du temps visuels, séquentiels de tâche et tableaux de jetons.
+Application web permettant de produire rapidement des supports visuels imprimables à partir d'une bibliothèque de pictogrammes ARASAAC embarquée : emplois du temps visuels, séquentiels de tâche, tableaux de jetons et listes de courses.
 
 Objectif métier : ramener à quelques minutes la création d'un support qui prend aujourd'hui 20 à 30 minutes dans un traitement de texte.
 
@@ -58,7 +58,7 @@ Format de `index.json` :
 ]
 ```
 
-Volume cible : **400 à 600 pictogrammes**. La base ARASAAC en compte plus de 40 000 ; embarquer l'ensemble n'a aucun intérêt et alourdirait inutilement le dépôt. Le SVG maintient le pack à quelques mégaoctets tout en imprimant net à n'importe quelle taille.
+Volume cible : **700 à 1000 pictogrammes** (le plafond `--max` a suivi l’ajout du vocabulaire de courses ; les catégories étant parcourues dans l’ordre du fichier, un plafond trop bas priverait les dernières). La base ARASAAC en compte plus de 40 000 ; embarquer l'ensemble n'a aucun intérêt et alourdirait inutilement le dépôt. Le SVG maintient le pack à quelques mégaoctets tout en imprimant net à n'importe quelle taille.
 
 Catégories de départ pour `vocabulaire.json` :
 
@@ -70,6 +70,7 @@ Catégories de départ pour `vocabulaire.json` :
 - **Consignes** : attendre, écouter, regarder, stop, aider, demander, tour de rôle, silence
 - **Objets** : table, chaise, crayon, ciseaux, livre, sac, téléphone, jeton, cadeau
 - **Repères temporels** : matin, après-midi, soir, jours de la semaine, fini, bientôt
+- **Fruits et légumes**, **Épicerie**, **Hygiène et entretien**, **Courses** *(ajoutés pour la liste de courses)* : pomme, poireau, lait, pâtes, lessive, papier toilette, caddie, caisse…
 
 Le fichier doit rester facile à compléter : un ajout de mot-clé + relance du script suffit à enrichir le pack.
 
@@ -113,6 +114,45 @@ Base commune : format A4 portrait ou paysage, titre du support, aperçu fidèle 
 - **Export / import JSON** d'un modèle ou de toute la bibliothèque de modèles, pour partage entre collègues (les pictos étant embarqués, un fichier JSON léger suffit)
 - **PWA** : `manifest.webmanifest` + service worker mettant en cache l'application et le pack de pictos, pour un fonctionnement hors ligne et une installation sur les tablettes
 
+### Lot 4 — Liste de courses *(ajouté après la version 1)*
+
+Quatrième support, destiné à l'autonomie aux courses : **un article = une quantité et une image**. L'accompagnant indique la quantité, écrit le mot générique, l'application propose l'image associée à ce mot.
+
+#### Le support
+
+- Articles en 1 à 3 colonnes, A4 portrait ou paysage
+- Par article : quantité en gros chiffre, pictogramme, mot écrit (désactivable pour un support entièrement visuel), case à cocher
+- Quantité de 1 à 20, réglée par des boutons `+` / `−` qui ne s'impriment pas
+- Ajout d'un article par la touche Entrée, suppression ligne par ligne
+
+#### Proposition du pictogramme
+
+C'est le cœur du support : écrire « pomme » suffit à obtenir l'image.
+
+- La recherche du lot 1 (`rechercher()`, normalisation NFD) sert de moteur : pas de second mécanisme
+- Au bout de 250 ms de frappe, le meilleur résultat se place tout seul dans l'article
+- Les autres résultats s'affichent dans une bande **sous l'aperçu**, jamais par-dessus la feuille : posée sur la page, elle masquerait les commandes de l'article suivant et un clic mal placé attribuerait l'image au mauvais article
+- Un pictogramme choisi à la main — dans la bande d'alternatives ou dans la Bibliothèque — n'est plus remplacé par la frappe ; c'est cette règle qui rend le placement automatique acceptable
+
+#### Mode course
+
+Affichage plein écran pour l'usage en magasin, ouvert depuis l'en-tête :
+
+- Une tuile par article : quantité, image, mot ; appui = article pris (grisé, barré)
+- Compteur « 3 sur 8 », bouton « Tout décocher »
+- L'état coché vit en `localStorage`, indexé par modèle : une mise en veille au rayon frais ne l'efface pas
+- Le support lui-même n'est jamais modifié par le mode course
+
+#### Images personnelles
+
+Le pack ARASAAC ne connaît ni la marque de yaourt du placard ni la boulangerie du coin ; une photo du produit réel est souvent plus parlante.
+
+- Import d'un fichier image depuis la Bibliothèque, avec ses mots-clés
+- Réduction à 400 px et ré-encodage en WebP (une vingtaine de kilo-octets), stockage en `localStorage`
+- Les images sont **mêlées au pack** : recherche, filtres, favoris et proposition automatique les couvrent sans traitement particulier
+- Une image insérée dans un support y est embarquée : le support reste imprimable et exportable tel quel
+- Rien ne quitte l'appareil : aucun téléversement, aucun serveur
+
 ## 5. Impression
 
 - `@page { size: A4; margin: 10mm; }`
@@ -133,13 +173,14 @@ Obligations à implémenter :
 
 Conséquence à garder en tête : toute commercialisation future du produit devrait se faire sans ces pictogrammes.
 
-## 7. Hors périmètre (version 1)
+## 7. Hors périmètre
 
 - Comptes utilisateurs, synchronisation, serveur
-- Import de photos ou de pictogrammes personnels *(évolution envisagée)*
 - Planches PECS / cartes de choix *(évolution envisagée)*
 - Génération de texte par IA
 - Toute donnée nominative
+
+L'import de photos et de pictogrammes personnels, écarté de la version 1, est entré dans le périmètre avec le lot 4 : il reste local à l'appareil.
 
 ## 8. Critères d'acceptation
 
@@ -149,6 +190,8 @@ Conséquence à garder en tête : toute commercialisation future du produit devr
 4. Le PDF imprimé tient sur une page A4, pictogrammes nets, sans élément d'interface parasite
 5. Un modèle enregistré se rouvre à l'identique après fermeture du navigateur
 6. Le pied de page d'attribution est présent sur tous les supports produits
+7. Une liste de courses de 8 articles se compose en écrivant huit mots, sans jamais ouvrir la Bibliothèque
+8. Le mode course reste utilisable wifi coupé, et l'état coché survit à une mise en veille de la tablette
 
 ## 9. Structure du dépôt
 

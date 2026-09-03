@@ -2,7 +2,8 @@
 
 Application web permettant de produire rapidement des supports visuels
 imprimables à partir d'une bibliothèque de pictogrammes ARASAAC embarquée :
-**emplois du temps visuels**, **séquentiels de tâche** et **tableaux de jetons**.
+**emplois du temps visuels**, **séquentiels de tâche**, **tableaux de jetons**
+et **listes de courses**.
 
 Objectif : ramener à quelques minutes la création d'un support qui prend
 aujourd'hui 20 à 30 minutes dans un traitement de texte.
@@ -37,13 +38,13 @@ pour toutes par un script, puis versionné dans le dépôt. C'est ce qui rend le
 fonctionnement hors ligne possible.
 
 ```bash
-npm run build:pictos                 # ~400 à 600 pictogrammes
+npm run build:pictos                 # ~700 à 1000 pictogrammes
 node scripts/build-pictos.mjs --help # options disponibles
 ```
 
 Le script :
 
-1. lit `scripts/vocabulaire.json` (8 catégories, ~200 mots-clés) ;
+1. lit `scripts/vocabulaire.json` (12 catégories, ~350 mots-clés) ;
 2. interroge l'API publique ARASAAC en français pour chaque mot-clé ;
 3. déduplique par identifiant et télécharge chaque image dans `public/pictos/` ;
 4. écrit `public/pictos/index.json`, **seul fichier lu par l'application** ;
@@ -98,6 +99,31 @@ modification.
 rouvrir, dupliquer, supprimer, et de les exporter en JSON pour les partager
 entre collègues (les pictogrammes étant embarqués, un fichier léger suffit).
 
+### Liste de courses
+
+Un article = **une quantité et une image**. Écrivez le mot générique dans
+l'article — « pomme », « lait », « papier toilette » — et l'image
+correspondante s'y place toute seule ; les autres images possibles s'affichent
+dans la bande sous l'aperçu, un clic suffit à en changer. Une image choisie à
+la main n'est plus remplacée si vous continuez à écrire.
+
+Le reste va de soi : les boutons `+` et `−` règlent la quantité (seul le
+chiffre s'imprime), la touche Entrée ajoute un article, la croix en supprime
+un. Décochez « Mot écrit sous l'image » pour une liste entièrement visuelle.
+
+**Mode course** ouvre la liste en plein écran pour le magasin : grandes tuiles,
+appui pour cocher un article pris, compteur « 3 sur 8 ». Les articles cochés
+sont conservés même si la tablette se met en veille, et la liste elle-même
+n'est pas modifiée.
+
+### Images personnelles
+
+Le bouton **+ Image** de la Bibliothèque ajoute une photo du produit réel ou un
+pictogramme maison, avec ses mots-clés. L'image est réduite et rangée dans le
+navigateur — elle ne quitte jamais l'appareil — puis se comporte comme un
+pictogramme du pack : elle se cherche, se met en favori, et la liste de courses
+la propose dès que vous écrivez l'un de ses mots-clés.
+
 **Hors ligne / tablette** : à la première visite en ligne, le service worker met
 l'application et tout le pack en cache — l'en-tête affiche « Disponible hors
 ligne » une fois terminé. L'application peut ensuite être installée depuis le
@@ -125,7 +151,7 @@ scripts/vocabulaire.json       mots-clés recherchés, par catégorie
 public/pictos/                 pack embarqué (versionné) + index.json
 public/sw.js                   service worker (cache application + pack)
 src/bibliotheque/              recherche, filtres, favoris
-src/editeurs/                  les trois éditeurs de support
+src/editeurs/                  les quatre éditeurs de support + le mode course
 src/support/                   page A4, pictogramme, pied de page d'attribution
 src/modeles/                   enregistrement local, export/import JSON
 src/impression/                mise à l'échelle de l'aperçu, feuille d'impression

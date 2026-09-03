@@ -63,5 +63,42 @@
     "lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi", "dimanche",
     "aujourd'hui", "demain", "hier", "fini", "bientôt", "avant", "après",
     "semaine", "week-end", "vacances", "anniversaire", "calendrier", "minuteur"
+  ],
+
+  "fruits et légumes": [
+    "pomme", "poire", "banane", "orange", "clémentine", "citron", "fraise",
+    "framboise", "raisin", "pêche", "abricot", "melon", "pastèque", "ananas",
+    "kiwi", "cerise", "prune", "tomate", "carotte", "salade", "pomme de terre",
+    "oignon", "ail", "courgette", "aubergine", "poivron", "concombre",
+    "haricot vert", "petit pois", "brocoli", "chou-fleur", "chou", "épinard",
+    "champignon", "poireau", "navet", "betterave", "radis", "maïs", "avocat",
+    "citrouille", "herbes aromatiques"
+  ],
+
+  "épicerie": [
+    "pain", "baguette", "pain de mie", "brioche", "croissant", "farine",
+    "sucre", "sel", "poivre", "huile", "vinaigre", "beurre", "margarine",
+    "lait", "crème", "fromage", "yaourt", "fromage blanc", "œufs", "pâtes",
+    "riz", "semoule", "lentilles", "haricots secs", "conserve", "soupe",
+    "sauce tomate", "ketchup", "mayonnaise", "moutarde", "confiture", "miel",
+    "céréales", "biscuit", "gâteau", "chocolat", "bonbon", "chips",
+    "poulet", "viande", "steak", "jambon", "saucisse", "poisson", "thon",
+    "saumon", "crevette", "surgelé", "pizza", "glace", "café", "thé",
+    "chocolat chaud", "jus de fruit", "eau", "eau gazeuse", "sirop", "soda"
+  ],
+
+  "hygiène et entretien": [
+    "savon", "gel douche", "shampoing", "dentifrice", "brosse à dents",
+    "déodorant", "mouchoirs", "papier toilette", "essuie-tout", "coton",
+    "rasoir", "peigne", "serviette hygiénique", "couche", "crème solaire",
+    "lessive", "adoucissant", "liquide vaisselle", "éponge", "produit ménager",
+    "javel", "sac poubelle", "papier aluminium", "film alimentaire",
+    "allumettes", "ampoule", "pile", "croquettes", "litière"
+  ],
+
+  "courses": [
+    "courses", "supermarché", "magasin", "marché", "boulangerie", "boucherie",
+    "caddie", "panier", "liste", "caisse", "payer", "argent", "carte bancaire",
+    "sac de courses", "rayon", "chariot", "ticket de caisse", "prix"
   ]
 }
