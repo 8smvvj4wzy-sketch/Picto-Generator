@@ -3,6 +3,7 @@ import Bibliotheque from './bibliotheque/Bibliotheque.jsx'
 import { useFavoris } from './bibliotheque/favoris.js'
 import { usePictos } from './bibliotheque/usePictos.js'
 import { EDITEURS, editeurPour } from './editeurs/registre.js'
+import ModeCourse from './editeurs/ModeCourse.jsx'
 import MesModeles from './modeles/MesModeles.jsx'
 import { enregistrer } from './modeles/stockage.js'
 import PageA4 from './support/PageA4.jsx'
@@ -23,6 +24,7 @@ export default function App() {
   const [typeActif, setTypeActif] = useState(EDITEURS[0].id)
   const [selection, setSelection] = useState(0)
   const [modelesOuverts, setModelesOuverts] = useState(false)
+  const [courseOuverte, setCourseOuverte] = useState(false)
   const [modeleCourant, setModeleCourant] = useState(null)
   const [message, setMessage] = useState(null)
   const minuteurMessage = useRef(null)
@@ -97,6 +99,7 @@ export default function App() {
     setTypeActif(type)
     setSelection(0)
     setModeleCourant(null)
+    setCourseOuverte(false)
   }
 
   function enregistrerSupport() {
@@ -152,6 +155,11 @@ export default function App() {
 
         <div className="entete__actions">
           <EtatHorsLigne />
+          {typeActif === TYPES.LISTE_COURSES && (
+            <button type="button" className="bouton" onClick={() => setCourseOuverte(true)}>
+              Mode course
+            </button>
+          )}
           <button type="button" className="bouton" onClick={() => setModelesOuverts(true)}>
             Mes modèles
           </button>
@@ -248,6 +256,14 @@ export default function App() {
 
       {modelesOuverts && (
         <MesModeles onOuvrir={ouvrirModele} onFermer={() => setModelesOuverts(false)} />
+      )}
+
+      {courseOuverte && (
+        <ModeCourse
+          support={support}
+          cle={modeleCourant?.id ?? 'courant'}
+          onFermer={() => setCourseOuverte(false)}
+        />
       )}
     </div>
   )
