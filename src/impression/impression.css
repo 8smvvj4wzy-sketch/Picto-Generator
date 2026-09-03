@@ -73,6 +73,7 @@
   /* Aucune case ne doit être coupée par un saut de page. */
   .case,
   .etape,
+  .article,
   .jetons__emplacement,
   .jetons__renforcateur,
   .jetons__entete,
@@ -81,9 +82,15 @@
     page-break-inside: avoid;
   }
 
+  /* Le mode course est un écran d'usage, jamais un support imprimé. */
+  .mode-course {
+    display: none !important;
+  }
+
   /* Les champs de saisie s'impriment comme du texte. */
   .case__libelle,
   .case__heure,
+  .article__libelle,
   .jetons__comportement {
     border: none;
     background: transparent;

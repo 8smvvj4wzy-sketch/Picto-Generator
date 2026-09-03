@@ -6,7 +6,7 @@ import { EDITEURS, editeurPour } from './editeurs/registre.js'
 import MesModeles from './modeles/MesModeles.jsx'
 import { enregistrer } from './modeles/stockage.js'
 import PageA4 from './support/PageA4.jsx'
-import { referencePicto } from './support/modeleSupport.js'
+import { referencePicto, TYPES } from './support/modeleSupport.js'
 import ApercuMisEchelle from './impression/ApercuMisEchelle.jsx'
 import EtatHorsLigne from './impression/EtatHorsLigne.jsx'
 
@@ -72,7 +72,14 @@ export default function App() {
               )
         const cases = courant.cases.map((c, i) =>
           i === cible
-            ? { ...c, picto: referencePicto(picto), libelle: c.libelle || picto.libelle }
+            ? {
+                ...c,
+                picto: referencePicto(picto),
+                libelle: c.libelle || picto.libelle,
+                // Choix explicite : la liste de courses ne le remplacera plus
+                // par sa proposition automatique à la frappe suivante.
+                pictoAuto: false,
+              }
             : c,
         )
         return { ...tous, [typeActif]: { ...courant, cases } }
@@ -110,7 +117,8 @@ export default function App() {
   }
 
   const cibleActive = useMemo(() => {
-    if (typeActif === 'jetons') return 'renforçateur'
+    if (typeActif === TYPES.JETONS) return 'renforçateur'
+    if (typeActif === TYPES.LISTE_COURSES) return `article ${(selection ?? 0) + 1}`
     return `case ${(selection ?? 0) + 1}`
   }, [selection, typeActif])
 
@@ -181,9 +189,11 @@ export default function App() {
             <PageA4 support={support}>
               <editeur.Rendu
                 support={support}
+                pack={pack}
                 selection={selection}
                 onSelectionner={setSelection}
                 onModifierCase={modifierCase}
+                modifier={modifier}
               />
             </PageA4>
           </ApercuMisEchelle>
