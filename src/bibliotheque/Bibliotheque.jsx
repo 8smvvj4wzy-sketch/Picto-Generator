@@ -2,12 +2,18 @@ import { useMemo, useState } from 'react'
 import Picto from '../support/Picto.jsx'
 import { rechercher } from './recherche.js'
 import AccueilPackAbsent from './AccueilPackAbsent.jsx'
+import AjoutImage from './AjoutImage.jsx'
+import { useMesImages } from './mesImages.js'
 
 const LIMITE_AFFICHAGE = 120
 
 /**
  * Panneau Bibliothèque : recherche, filtres par catégorie, favoris.
  * Un clic sur une vignette insère le pictogramme dans le support en cours.
+ *
+ * Les images personnelles sont mêlées au pack par `usePictos` : elles se
+ * cherchent et s'insèrent comme les autres, et se reconnaissent à leur
+ * `dataURL` — la seule différence tient à leur suppression, possible ici.
  */
 export default function Bibliotheque({
   etat,
@@ -23,6 +29,8 @@ export default function Bibliotheque({
   const [categorie, setCategorie] = useState(null)
   const [seulementFavoris, setSeulementFavoris] = useState(false)
   const [toutAfficher, setToutAfficher] = useState(false)
+  const [ajoutOuvert, setAjoutOuvert] = useState(false)
+  const { supprimer } = useMesImages()
 
   const resultats = useMemo(() => {
     const trouves = rechercher(pack, { requete, categorie, favoris })
@@ -53,7 +61,18 @@ export default function Bibliotheque({
           autoComplete="off"
           aria-label="Rechercher un pictogramme"
         />
+        <button
+          type="button"
+          className={`bouton ${ajoutOuvert ? 'bouton--principal' : ''}`}
+          onClick={() => setAjoutOuvert((v) => !v)}
+          aria-expanded={ajoutOuvert}
+          title="Ajouter une photo ou une image personnelle"
+        >
+          + Image
+        </button>
       </div>
+
+      {ajoutOuvert && <AjoutImage />}
 
       <div className="bibliotheque__filtres">
         <button
@@ -123,6 +142,17 @@ export default function Bibliotheque({
               >
                 {favori ? '★' : '☆'}
               </button>
+              {picto.dataURL && (
+                <button
+                  type="button"
+                  className="vignette__supprimer"
+                  onClick={() => supprimer(picto.id)}
+                  aria-label={`Supprimer l’image ${picto.libelle}`}
+                  title="Supprimer cette image personnelle"
+                >
+                  ✕
+                </button>
+              )}
             </div>
           )
         })}

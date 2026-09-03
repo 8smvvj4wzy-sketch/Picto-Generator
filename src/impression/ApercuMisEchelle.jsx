@@ -27,7 +27,10 @@ export default function ApercuMisEchelle({ paysage, children }) {
     // sinon le bas du support sort de l'écran et l'aperçu perd son intérêt.
     function recalculer() {
       const largeurDisponible = element.clientWidth - 24
-      const hauteurDisponible = (element.parentElement?.clientHeight ?? window.innerHeight) - 40
+      // Hauteur du cadre lui-même : elle tient compte de ce qu'un support
+      // ajoute éventuellement sous la feuille (bande d'images proposées).
+      const hauteurDisponible =
+        (element.clientHeight || element.parentElement?.clientHeight || window.innerHeight) - 40
       const voulue = Math.min(largeurDisponible / largeurPage, hauteurDisponible / hauteurPage)
       setEchelle(Math.min(1, Math.max(0.2, voulue)))
     }

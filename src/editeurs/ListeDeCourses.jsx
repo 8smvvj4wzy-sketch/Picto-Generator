@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 import Picto from '../support/Picto.jsx'
 import { proposer } from '../bibliotheque/proposition.js'
 import {
@@ -113,8 +113,6 @@ function Article({
   onSupprimer,
   onAjouterApres,
 }) {
-  const [propositions, setPropositions] = useState([])
-
   // L'effet ne doit se déclencher que sur la frappe : l'état courant de
   // l'article est lu dans une référence pour ne pas le mettre en dépendance.
   const refArticle = useRef(article)
@@ -124,7 +122,6 @@ function Article({
     const minuteur = setTimeout(() => {
       const courant = refArticle.current
       const trouves = proposer(pack, courant.libelle)
-      setPropositions(trouves)
 
       if (courant.picto && courant.pictoAuto === false) return
 
@@ -182,7 +179,9 @@ function Article({
         {article.picto ? (
           <Picto picto={article.picto} alt={article.libelle} />
         ) : (
-          <span className="case__vide sans-impression">Écrivez le mot</span>
+          <span className="case__vide sans-impression">
+            {support.afficherLibelles ? 'Écrivez le mot' : 'Choisir une image'}
+          </span>
         )}
       </div>
 
@@ -190,7 +189,7 @@ function Article({
         <input
           className="case__libelle article__libelle"
           value={article.libelle}
-          placeholder="pomme, lait, pain…"
+          onFocus={() => onSelectionner(index)}
           onChange={(e) => onModifierCase(index, { libelle: e.target.value })}
           onKeyDown={(e) => {
             if (e.key === 'Enter') {
@@ -211,27 +210,47 @@ function Article({
       >
         ✕
       </button>
+    </div>
+  )
+}
 
-      {/* Positionnée en absolu : les alternatives ne doivent pas décaler d'un
-          millimètre l'aperçu par rapport à la feuille imprimée. */}
-      {selectionne && propositions.length > 0 && (
-        <div className="propositions sans-impression">
-          <span className="propositions__titre">Autres images :</span>
-          {propositions.map((picto) => (
-            <button
-              key={picto.id}
-              type="button"
-              className={`propositions__choix ${
-                picto.id === article.picto?.id ? 'propositions__choix--actif' : ''
-              }`}
-              onClick={() => onModifierCase(index, { picto: referencePicto(picto), pictoAuto: false })}
-              title={picto.motsCles?.join(', ')}
-            >
-              <Picto picto={picto} alt={picto.libelle} />
-            </button>
-          ))}
-        </div>
-      )}
+/**
+ * Bande d'alternatives, affichée sous l'aperçu — donc hors de la feuille.
+ *
+ * Elle a d'abord été posée sous la ligne en cours d'édition, mais elle
+ * recouvrait alors les commandes de l'article suivant : un clic mal placé
+ * attribuait l'image au mauvais article. À sa place fixe, elle ne masque rien
+ * et ne décale pas l'aperçu d'un millimètre par rapport à la feuille.
+ */
+function Complement({ support, pack, selection, onModifierCase }) {
+  const index = Math.min(selection ?? 0, support.cases.length - 1)
+  const article = support.cases[index]
+  const propositions = proposer(pack, article?.libelle ?? '', 8)
+
+  if (!article) return null
+
+  return (
+    <div className="propositions sans-impression">
+      <span className="propositions__titre">
+        {propositions.length > 0
+          ? `Article ${index + 1} — autres images pour « ${article.libelle.trim()} »`
+          : 'Écrivez le mot de l’article : les images correspondantes s’affichent ici.'}
+      </span>
+      <div className="propositions__choix-liste">
+        {propositions.map((picto) => (
+          <button
+            key={picto.id}
+            type="button"
+            className={`propositions__choix ${
+              picto.id === article.picto?.id ? 'propositions__choix--actif' : ''
+            }`}
+            onClick={() => onModifierCase(index, { picto: referencePicto(picto), pictoAuto: false })}
+            title={picto.motsCles?.join(', ')}
+          >
+            <Picto picto={picto} alt={picto.libelle} />
+          </button>
+        ))}
+      </div>
     </div>
   )
 }
@@ -251,7 +270,10 @@ function Rendu({ support, pack, selection, onSelectionner, onModifierCase, modif
   }
 
   return (
-    <div className="liste-courses" style={{ gridTemplateColumns: `repeat(${colonnes}, 1fr)` }}>
+    <div
+      className={`liste-courses liste-courses--colonnes-${colonnes}`}
+      style={{ gridTemplateColumns: `repeat(${colonnes}, 1fr)` }}
+    >
       {cases.map((article, index) => (
         <Article
           key={article.id}
@@ -277,4 +299,5 @@ export default {
   defaut,
   Reglages,
   Rendu,
+  Complement,
 }

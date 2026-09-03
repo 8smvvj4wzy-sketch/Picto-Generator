@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { preparer } from './recherche.js'
+import { useMesImages } from './mesImages.js'
 
 const URL_INDEX = `${import.meta.env.BASE_URL}pictos/index.json`
 
@@ -54,7 +55,11 @@ export function usePictos() {
     }
   }, [])
 
-  const pack = useMemo(() => brut.map(preparer), [brut])
+  // Les images personnelles rejoignent le pack avant toute préparation : la
+  // recherche, les filtres, les favoris et la proposition automatique de la
+  // liste de courses les couvrent alors sans traitement particulier.
+  const { images } = useMesImages()
+  const pack = useMemo(() => [...images, ...brut].map(preparer), [brut, images])
 
   const categories = useMemo(() => {
     const vues = new Map()
@@ -66,5 +71,10 @@ export function usePictos() {
 
   const parId = useMemo(() => new Map(pack.map((p) => [p.id, p])), [pack])
 
-  return { etat, erreur, pack, categories, parId }
+  // Le pack n'est pas encore constitué mais des images personnelles existent :
+  // la Bibliothèque a de quoi travailler, inutile de renvoyer l'utilisateur
+  // vers l'écran d'installation.
+  const etatEffectif = etat === 'absent' && images.length > 0 ? 'pret' : etat
+
+  return { etat: etatEffectif, erreur, pack, categories, parId }
 }

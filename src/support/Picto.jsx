@@ -6,15 +6,19 @@ export function urlPicto(fichier) {
 }
 
 /**
- * Affichage d'un pictogramme du pack.
- * `picto` est soit une entrée de l'index, soit une référence { id, fichier }.
+ * Affichage d'un pictogramme.
+ *
+ * `picto` est soit une entrée de l'index, soit une référence { id, fichier },
+ * soit une image personnelle qui porte son contenu dans `dataURL` — celle-ci
+ * n'existant dans aucun pack, elle ne peut pas être désignée par un fichier.
  */
 export default function Picto({ picto, alt = '', classe = '' }) {
-  if (!picto?.fichier) return null
+  const source = picto?.dataURL ?? (picto?.fichier ? urlPicto(picto.fichier) : null)
+  if (!source) return null
   return (
     <img
       className={`picto ${classe}`}
-      src={urlPicto(picto.fichier)}
+      src={source}
       alt={alt}
       loading="lazy"
       decoding="async"

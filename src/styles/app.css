@@ -314,10 +314,41 @@ body {
   gap: 10px;
 }
 
+.bibliotheque__recherche {
+  display: flex;
+  gap: 6px;
+}
+
+.bibliotheque__recherche .champ {
+  flex: 1;
+  min-width: 0;
+}
+
 .bibliotheque__filtres {
   display: flex;
   flex-wrap: wrap;
   gap: 5px;
+}
+
+/* Ajout d'une image personnelle : replié tant qu'on ne le demande pas. */
+.ajout-image {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 10px;
+  border: 1px solid var(--bordure);
+  border-radius: var(--rayon);
+  background: var(--accent-doux);
+}
+
+.ajout-image__fichier {
+  font: inherit;
+  font-size: 12px;
+}
+
+.ajout-image__actions {
+  display: flex;
+  gap: 8px;
 }
 
 .puce {
@@ -405,6 +436,21 @@ body {
   background: rgb(255 255 255 / 85%);
   color: #b8860b;
   font-size: 14px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.vignette__supprimer {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 22px;
+  height: 22px;
+  border: none;
+  border-radius: 50%;
+  background: rgb(255 255 255 / 85%);
+  color: var(--danger);
+  font-size: 12px;
   line-height: 1;
   cursor: pointer;
 }
@@ -563,11 +609,17 @@ code {
   overflow: auto;
   padding: 20px;
   display: flex;
-  justify-content: center;
-  align-items: flex-start;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
 }
 
+/* `flex: 1` donne à l'aperçu la hauteur réellement disponible : c'est elle que
+   mesure ApercuMisEchelle pour que la page entière tienne à l'écran, y compris
+   quand un support ajoute une bande de commandes sous la feuille. */
 .apercu {
+  flex: 1;
+  min-height: 0;
   width: 100%;
   display: flex;
   justify-content: center;
@@ -926,18 +978,33 @@ code {
 
 /* --------------------------------------------------------- liste de courses */
 
+/* Les articles gardent leur hauteur naturelle et se posent en haut de la
+   feuille : une liste de trois articles ne doit pas s'étirer sur une page
+   entière sous prétexte qu'elle est courte. */
 .liste-courses {
   flex: 1;
   width: 100%;
   display: grid;
   gap: 3mm;
-  grid-auto-rows: minmax(0, 1fr);
+  align-content: start;
+
+  /* Au-delà d'une colonne, la largeur d'une ligne se partage : le pictogramme
+     cède la place au mot, qui doit rester lisible en entier. */
+  --picto-article: var(--picto);
+}
+
+.liste-courses--colonnes-2 {
+  --picto-article: min(var(--picto), 26mm);
+}
+
+.liste-courses--colonnes-3 {
+  --picto-article: min(var(--picto), 18mm);
 }
 
 .article {
   position: relative;
   min-width: 0;
-  min-height: 0;
+  min-height: calc(var(--picto-article) + 6mm);
   display: flex;
   align-items: center;
   gap: 2.5mm;
@@ -961,14 +1028,14 @@ code {
 .article__quantite {
   position: relative;
   flex: none;
-  width: 15mm;
+  width: 13mm;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .article__nombre {
-  font-size: 11mm;
+  font-size: 9mm;
   font-weight: 700;
   line-height: 1;
 }
@@ -1004,11 +1071,13 @@ code {
   color: var(--accent);
 }
 
+/* Le pictogramme prend la taille demandée mais accepte de se réduire : sur
+   trois colonnes, la largeur d'une ligne ne suffit pas toujours à un « grand ». */
 .article__picto {
-  flex: none;
-  width: var(--picto);
+  flex: 0 1 var(--picto-article);
+  min-width: 12mm;
   height: 100%;
-  max-height: var(--picto);
+  max-height: var(--picto-article);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1020,12 +1089,16 @@ code {
   object-fit: contain;
 }
 
+/* `min-width: 0` est indispensable : sans lui, un champ de saisie refuse de
+   descendre sous sa largeur intrinsèque et déborde de la ligne. */
 .article__libelle {
-  flex: 1;
+  flex: 1 1 20mm;
   width: auto;
+  min-width: 0;
   text-align: left;
-  font-size: 6mm;
+  font-size: 4.5mm;
   font-weight: 700;
+  text-overflow: ellipsis;
 }
 
 .article__supprimer {
@@ -1049,39 +1122,41 @@ code {
   color: var(--danger);
 }
 
-/* Alternatives proposées sous l'article sélectionné. En position absolue :
-   elles flottent au-dessus de la page sans en décaler le contenu, l'aperçu
-   restant au millimètre celui de la feuille imprimée. */
+/* Bande d'images proposées, sous la feuille et jamais dessus : elle ne masque
+   aucune commande et ne décale pas l'aperçu par rapport au papier. */
 .propositions {
-  position: absolute;
-  top: calc(100% + 1mm);
-  left: 0;
-  right: 0;
-  z-index: 5;
+  flex: none;
+  width: 100%;
+  max-width: 210mm;
   display: flex;
-  align-items: center;
-  gap: 1.5mm;
-  padding: 1.5mm 2mm;
-  border: 0.3mm solid var(--bordure);
-  border-radius: 2mm;
+  flex-direction: column;
+  gap: 6px;
+  padding: 10px 12px;
+  border: 1px solid var(--bordure);
+  border-radius: var(--rayon);
   background: var(--surface);
-  box-shadow: 0 3px 12px rgb(16 24 40 / 22%);
+  box-shadow: var(--ombre);
 }
 
 .propositions__titre {
-  flex: none;
-  font-size: 3mm;
+  font-size: 12px;
   color: var(--texte-doux);
+}
+
+.propositions__choix-liste {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
 }
 
 .propositions__choix {
   flex: none;
-  width: 13mm;
-  height: 13mm;
-  padding: 1mm;
-  border: 0.3mm solid transparent;
-  border-radius: 1.5mm;
-  background: transparent;
+  width: 54px;
+  height: 54px;
+  padding: 4px;
+  border: 1px solid var(--bordure);
+  border-radius: var(--rayon);
+  background: var(--surface);
   cursor: pointer;
 }
 

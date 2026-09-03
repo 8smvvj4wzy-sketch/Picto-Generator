@@ -205,6 +205,17 @@ export default function App() {
               />
             </PageA4>
           </ApercuMisEchelle>
+
+          {/* Certains supports ont besoin d'une commande hors de la feuille —
+              la liste de courses y propose les images du mot en cours. */}
+          {editeur.Complement && (
+            <editeur.Complement
+              support={support}
+              pack={pack}
+              selection={selection}
+              onModifierCase={modifierCase}
+            />
+          )}
         </section>
 
         <section className="panneau panneau--reglages sans-impression" aria-label="Réglages">
